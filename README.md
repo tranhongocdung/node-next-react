@@ -48,3 +48,22 @@ Run unit test
 ```sh
 npm test
 ```
+
+## Setup client
+From the root  of repository, go to Server folder
+```sh
+cd client
+```
+Install all packages
+```sh
+npm i
+```
+Update API endpoint at path:
+```sh
+apis/axiosClient.js
+```
+
+Run client
+```sh
+npm run dev
+```
