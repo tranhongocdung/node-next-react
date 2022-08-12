@@ -39,7 +39,7 @@ Run database migration
 sequelize db:seed:all
 ```
 
-Run sevrer
+Run server
 ```sh
 npm start
 ```
