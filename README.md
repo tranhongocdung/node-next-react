@@ -43,3 +43,8 @@ Run sevrer
 ```sh
 npm start
 ```
+
+Run unit test
+```sh
+npm test
+```
