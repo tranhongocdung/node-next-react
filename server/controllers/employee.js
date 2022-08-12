@@ -1,10 +1,16 @@
-const { Employee } = require("../models/");
+const {
+  getEmployeeList,
+  getEmployeeDetail,
+  updateEmployee,
+  createEmployee,
+  deleteEmployee,
+} = require("../services/employee");
 
 const defaultErrorMsg = "Something went wrong";
 
 const employeeList = async (req, res) => {
   try {
-    const employees = await Employee.findAll();
+    const employees = await getEmployeeList({});
     return res.json(employees);
   } catch (err) {
     console.error(err);
@@ -15,7 +21,7 @@ const employeeList = async (req, res) => {
 const employeeDetail = async (req, res) => {
   const id = req.params.id;
   try {
-    const employee = await Employee.findOne({ where: { id } });
+    const employee = await getEmployeeDetail(id);
     return res.json(employee);
   } catch (err) {
     console.error(err);
@@ -27,15 +33,15 @@ const employeeUpdate = async (req, res) => {
   const id = req.params.id;
   const { firstName, lastName, email, phone, gender, avatar } = req.body;
   try {
-    const employee = await Employee.findOne({ where: { id } });
-
-    employee.firstName = firstName;
-    employee.lastName = lastName;
-    employee.email = email;
-    employee.phone = phone;
-    employee.gender = gender;
-    employee.avatar = avatar;
-    await employee.save();
+    const employee = await updateEmployee({
+      id,
+      firstName,
+      lastName,
+      email,
+      phone,
+      gender,
+      avatar,
+    });
 
     return res.json(employee);
   } catch (err) {
@@ -47,13 +53,13 @@ const employeeUpdate = async (req, res) => {
 const employeeCreate = async (req, res) => {
   const { firstName, lastName, email, phone, gender, avatar } = req.body;
   try {
-    const employee = await Employee.create({
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      phone: phone,
-      gender: gender,
-      avatar: avatar,
+    const employee = await createEmployee({
+      firstName,
+      lastName,
+      email,
+      phone,
+      gender,
+      avatar,
     });
     return res.json(employee);
   } catch (err) {
@@ -65,8 +71,7 @@ const employeeCreate = async (req, res) => {
 const employeeDelete = async (req, res) => {
   const id = req.params.id;
   try {
-    const employee = await Employee.findOne({ where: { id } });
-    await employee.destroy();
+    const employee = deleteEmployee(id);
     return res.json({ message: "User is deleted!" });
   } catch (err) {
     console.error(err);
